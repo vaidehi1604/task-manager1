@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <button id="get">Get Device Token</button>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-messaging-compat.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyB-_KJsmP8SdsT3AnMgXqyXKT9mSFVzj_Y",
+        authDomain: "chat-app-99513.firebaseapp.com",
+        projectId: "chat-app-99513",
+        storageBucket: "chat-app-99513.appspot.com",
+        messagingSenderId: "171523507530",
+        appId: "1:171523507530:web:23eab38401a04bf3522db3",
+      };
+
+      const vapidKey = "BJPvwz4O4L588Woj33Pwn7EZ1Sb0noQ5j0cE6pwom2MLmqUtt5NXIFYE9uddM9D5x1J4PN8VWMu5qxF4eScf3Qw";
+
+      firebase.initializeApp(firebaseConfig);
+      const messaging = firebase.messaging();
+
+      document.getElementById("get").onclick = async () => {
+        try {
+          // ✅ Ask permission
+          const permission = await Notification.requestPermission();
+          if (permission !== "granted") {
+            alert("Permission denied");
+            return;
+          }
+
+          // ✅ Register real service worker
+          const registration = await navigator.serviceWorker.register("/firebase-messaging-sw.js");
+
+          // ✅ Get FCM token
+          const token = await messaging.getToken({
+            vapidKey,
+            serviceWorkerRegistration: registration,
+          });
+
+          console.log("✅ DEVICE TOKEN:", token);
+          alert("✅ Token generated! Check console.");
+
+        } catch (err) {
+          console.error("❌ Error getting token:", err);
+        }
+      };
+    </script>
+  </body>
+</html>
