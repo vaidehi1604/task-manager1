@@ -5,6 +5,8 @@ import {
   ArrowLeftStartOnRectangleIcon,
   Cog6ToothIcon,
   UserIcon,
+  UsersIcon,
+  LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import ThemeToggle from "../common/ThemeToggle";
 import { userApiEndpoints } from "../../constants/api-endpoints/user/user";
@@ -12,12 +14,16 @@ import { api } from "../../api/apiInterceptors";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
-
+import logo from "../../assets/task-magment.png";
+import AdminDashboard from "./AdminDashboard";
+import ChangePassword from "../../../src/components/features/profile/ChangePassword.jsx";
 const Dashboard = () => {
   const { user, logout, isAdmin } = useAuth();
+  const [openChangePassword, setOpenChangePassword] = useState(false);
+
   const navigate = useNavigate();
   const [openProfile, setOpenProfile] = useState(false);
-
+  const [activeView, setActiveView] = useState(isAdmin ? "dashboard" : "tasks");
   const handleLogout = async () => {
     try {
       await api({
@@ -25,12 +31,12 @@ const Dashboard = () => {
         method: "POST",
       });
       logout();
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);
       // Force logout even if API fails
       logout();
-      navigate("/login");
+      navigate("/");
     }
   };
   return (
@@ -40,11 +46,19 @@ const Dashboard = () => {
         {/* ---------- Top Navbar ---------- */}
         <header className="bg-white dark:bg-gray-800 dark:border-gray-700 shadow-md px-6 py-4 flex items-center justify-between">
           {/* Logo */}
-          <img
-            src="/src/assets/task-magment.png"
+          {/* <img
+            src={logo}
             alt="logo"
             className="w-15 cursor-pointer rounded-full m-2"
-          />
+          /> */}
+          <div className="leading-tight select-none">
+            <span className="block text-m font-bold text-sky-700 dark:text-sky-400">
+              Task
+            </span>
+            <span className="block pl-3 text-m font-bold text-slate-900 dark:text-slate-100">
+              Manager
+            </span>
+          </div>
 
           <div className="flex items-center gap-4">
             <ThemeToggle />
@@ -65,7 +79,8 @@ const Dashboard = () => {
 
         {/* ---------- Dashboard Content ---------- */}
         <main className="p-6">
-          <TaskList />
+          {activeView === "dashboard" && isAdmin && <AdminDashboard />}
+          {activeView === "tasks" && <TaskList />}
         </main>
       </div>
 
@@ -78,13 +93,14 @@ const Dashboard = () => {
       )}
 
       {/* ================= PROFILE SIDEBAR ================= */}
+      {/* ================= PROFILE SIDEBAR ================= */}
       <div
         className={`fixed top-0 right-0 h-full w-80 bg-sky-900 text-white z-50
-        transform transition-transform duration-300 ease-in-out
-        ${openProfile ? "translate-x-0" : "translate-x-full"}`}
+  transform transition-transform duration-300 ease-in-out
+  ${openProfile ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="flex flex-col h-full">
-          {/* Header */}
+          {/* 🔹 HEADER */}
           <div className="flex items-center justify-between px-5 py-4 border-b border-sky-700">
             <h2 className="text-lg font-semibold">Profile</h2>
             <button onClick={() => setOpenProfile(false)}>
@@ -92,48 +108,54 @@ const Dashboard = () => {
             </button>
           </div>
 
-          {/* User Info */}
+          {/* 🔹 USER INFO */}
           <div className="flex items-center gap-4 px-5 py-6 border-b border-sky-700">
-            <UserCircleIcon className="w-12 h-12 text-white border-1 border-white rounded-full cursor-pointer hover:opacity-80 transition" />
-
+            <UserCircleIcon className="w-12 h-12 text-white" />
             <div>
               <p className="font-medium">{user?.name}</p>
               <p className="text-sm text-sky-200">{user?.email}</p>
             </div>
           </div>
 
-          {/* Menu */}
-          <div className="flex-1 px-3 py-4 space-y-2">
+          {/* 🔹 MENU (SCROLLABLE ONLY IF NEEDED) */}
+          <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+            {isAdmin && (
+              <button
+                onClick={() => setActiveView("dashboard")}
+                className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition
+            ${activeView === "dashboard" ? "bg-sky-800" : "hover:bg-sky-800"}
+          `}
+              >
+                <UserIcon className="w-5 h-5" />
+                Dashboard
+              </button>
+            )}
+
             <button
-              className="flex items-center gap-3 w-full px-4 py-3 rounded-lg
-              hover:bg-sky-800 transition"
+              onClick={() => setActiveView("tasks")}
+              className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition
+          ${activeView === "tasks" ? "bg-sky-800" : "hover:bg-sky-800"}
+        `}
             >
-              <UserIcon className="w-5 h-5" />
-              My Profile
+              <UsersIcon className="w-5 h-5" />
+              Task List
             </button>
 
-            {/* <button
-              className="flex items-center gap-3 w-full px-4 py-3 rounded-lg
-              hover:bg-sky-800 transition"
-            >
-              <Cog6ToothIcon className="w-5 h-5" />
-              Settings
-            </button> */}
             <button
-              onClick={() => navigate("/change-password")}
+              onClick={() => setOpenChangePassword(true)}
               className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-sky-800 transition"
             >
-              <Cog6ToothIcon className="w-5 h-5" />
-              Change Password
+            <LockClosedIcon className="w-5 h-5" />
+             Change Password
             </button>
           </div>
 
-          {/* Logout */}
+          {/* 🔹 LOGOUT (FIXED AT BOTTOM) */}
           <div className="px-3 py-4 border-t border-sky-700">
             <button
               onClick={handleLogout}
               className="flex items-center gap-3 w-full px-4 py-3 rounded-lg
-              hover:bg-white transition hover:text-sky-800"
+        hover:bg-white hover:text-sky-800 transition"
             >
               <ArrowLeftStartOnRectangleIcon className="w-5 h-5" />
               Logout
@@ -141,6 +163,12 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* MODALS (BOTTOM) */}
+      <ChangePassword
+        isOpen={openChangePassword}
+        onClose={() => setOpenChangePassword(false)}
+      />
     </div>
   );
 };

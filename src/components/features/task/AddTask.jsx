@@ -1,10 +1,11 @@
 // components/AddTask.jsx
 import React, { useEffect, useState } from "react";
 import { apiEndpoints } from "../../../constants/api-endpoints/task/task";
-import {userApiEndpoints} from "../../../constants/api-endpoints/user/user";
+import { userApiEndpoints } from "../../../constants/api-endpoints/user/user";
 import { api } from "../../../api/apiInterceptors";
+import UserSearchSelect from "./UserSearchSelect";
 
-const AddTask = ({ onClose,onTaskCreated }) => {
+const AddTask = ({ onClose, onTaskCreated }) => {
   const [loading, setLoading] = useState(false);
   const [assignedUser, setAssignedUser] = useState("");
   const [users, setUsers] = useState([]);
@@ -29,6 +30,7 @@ const AddTask = ({ onClose,onTaskCreated }) => {
         endpoint: userApiEndpoints.ENDPOINTS_NEW_USER_LISTING, // your backend API
         method: "GET",
         withToken: true,
+        showToast: false,
       });
       setUsers(res?.users || res?.data?.users || []);
     } catch (error) {
@@ -59,7 +61,7 @@ const AddTask = ({ onClose,onTaskCreated }) => {
       });
 
       console.log("Task Created:", res);
-      onTaskCreated(); 
+      onTaskCreated();
       onClose();
     } catch (error) {
       console.error(error);
@@ -70,7 +72,7 @@ const AddTask = ({ onClose,onTaskCreated }) => {
   };
 
   return (
-    <div className="p-8 dark:bg-gray-800 dark:text-gray-100">
+    <div className="p-5 dark:bg-gray-800 dark:text-gray-100">
       <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
         Add New Task
       </h2>
@@ -126,7 +128,7 @@ const AddTask = ({ onClose,onTaskCreated }) => {
           <option>High</option>
         </select>
 
-        <div>
+        {/* <div>
           <input
             type="text"
             placeholder="Search user..."
@@ -152,6 +154,22 @@ const AddTask = ({ onClose,onTaskCreated }) => {
               </option>
             ))}
           </select>
+        </div> */}
+        <div className="space-y-2">
+      
+
+          {/* Dropdown */}
+          <UserSearchSelect
+            users={users}
+            value={assignedUser}
+            onChange={setAssignedUser}
+            searchValue={searchUser}
+            onSearchChange={(val) => {
+              setSearchUser(val);
+              fetchUsers(); // debounced recommended
+            }}
+            placeholder="Assign user"
+          />
         </div>
 
         <button

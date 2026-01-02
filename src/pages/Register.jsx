@@ -19,6 +19,7 @@ const Register = () => {
           email: values.email,
           password: values.password,
         },
+        showToast: true,
       });
 
       login(res.token, res.user);
@@ -90,7 +91,7 @@ const Register = () => {
                   value={values.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-700 dark:bg-gray-300"
                 />
                 {touched.name && errors.name && (
                   <p className="text-red-500 text-sm mt-1">{errors.name}</p>
@@ -109,7 +110,7 @@ const Register = () => {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-700 dark:bg-gray-300"
                 />
                 {touched.email && errors.email && (
                   <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -128,7 +129,7 @@ const Register = () => {
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-700 dark:bg-gray-300"
                 />
                 {touched.password && errors.password && (
                   <p className="text-red-500 text-sm mt-1">{errors.password}</p>
@@ -147,7 +148,7 @@ const Register = () => {
                   value={values.confirmPassword}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-700 dark:bg-gray-300"
                 />
                 {touched.confirmPassword && errors.confirmPassword && (
                   <p className="text-red-500 text-sm mt-1">
@@ -159,7 +160,7 @@ const Register = () => {
               {/* Register Button */}
               <button
                 type="submit"
-                className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-300"
+                className="w-full bg-sky-700 text-white py-3 rounded-lg font-semibold hover:bg-sky-700 transition duration-300"
               >
                 Register
               </button>
@@ -171,8 +172,8 @@ const Register = () => {
         <p className="text-center text-gray-500 dark:text-gray-400 text-sm mt-6">
           Already have an account?{" "}
           <a
-            href="/login"
-            className="text-indigo-600 font-semibold hover:underline"
+            href="/"
+            className="text-sky-700 font-semibold hover:underline"
           >
             Login
           </a>

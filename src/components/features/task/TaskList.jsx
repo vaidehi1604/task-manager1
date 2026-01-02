@@ -84,7 +84,7 @@ const TaskList = () => {
       tasks.map((task, index) => (
         <tr
           key={task._id}
-          className="hover:bg-gray-50 dark:hover:bg-gray-700 border-b dark:border-gray-700"
+          className="hover:bg-gray-50 dark:hover:bg-gray-700 border-b dark:border-gray-700 text-center"
         >
           <td className="px-5 py-4">{(page - 1) * LIMIT + index + 1}</td>
 
@@ -192,7 +192,7 @@ const TaskList = () => {
         {/* Table */}
         <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg">
           <table className="w-full text-sm pb-1 dark:text-gray-200">
-            <thead className="bg-gray-100 dark:bg-gray-700 px-2">
+            <thead className="bg-gray-100 dark:bg-gray-700 px-2 h-10 text-center">
               <tr>
                 <th>#</th>
                 <th>Title</th>

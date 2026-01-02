@@ -6,11 +6,15 @@ import { userApiEndpoints } from "../constants/api-endpoints/user/user";
 import { useNavigate } from "react-router-dom";
 import { USER_ACCESS_TOKEN_KEY } from "../appConstants";
 import { useAuth } from "../hooks/useAuth";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+
 // Example: apiEndpoints.ENDPOINTS_USER_LOGIN
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  
   const { login } = useAuth();
 
   const validationSchema = Yup.object({
@@ -50,8 +54,12 @@ const Login = () => {
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8">
         {/* Title */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Task Manager</h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">Login to your account</p>
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+            Task Manager
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-2">
+            Login to your account
+          </p>
         </div>
 
         {/* Error Message */}
@@ -79,7 +87,7 @@ const Login = () => {
             <form className="space-y-5" onSubmit={handleSubmit}>
               {/* Email */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
                   Email
                 </label>
                 <input
@@ -89,7 +97,7 @@ const Login = () => {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-900 dark:bg-gray-300"
                 />
                 {touched.email && errors.email && (
                   <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -97,7 +105,7 @@ const Login = () => {
               </div>
 
               {/* Password */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Password
                 </label>
@@ -108,14 +116,46 @@ const Login = () => {
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-300"
                 />
                 {touched.password && errors.password && (
                   <p className="text-red-500 text-sm mt-1">{errors.password}</p>
                 )}
+              </div> */}
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">
+                  Password
+                </label>
+
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Enter your password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-700 dark:bg-gray-300"
+                  />
+
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeSlashIcon className="w-5 h-5 text-gray-600" />
+                    ) : (
+                      <EyeIcon className="w-5 h-5 text-gray-600" />
+                    )}
+                  </button>
+                </div>
+
+                {touched.password && errors.password && (
+                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                )}
               </div>
-
-
               <button
                 type="submit"
                 disabled={isSubmitting}

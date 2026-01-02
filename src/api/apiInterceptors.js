@@ -111,6 +111,7 @@ export const api = async ({
   headers = {},
   showToast = true,
 }) => {
+  console.log(showToast);
   try {
     // USE_MOCK: To enforce mock for this demo
     const USE_MOCK = false;
@@ -129,18 +130,24 @@ export const api = async ({
       data: payloadData,
       headers,
     });
-    console.log(response, "response")
+    // console.log(response, "response");
     if (showToast && response.data?.message) {
       toast.success(response.data.message);
     }
     return response.data;
   } catch (error) {
+    if (error.response?.status === 401) {
+      toast.error("Session expired! Please log in again.");
+
+      localStorage.removeItem("token");
+      window.location.replace("/"); // immediate redirect
+    }
     if (showToast) {
-      toast.error(response?.data?.message || "An error occurred. Please try again.");
+      toast.error(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
     console.error("API ERROR:", error);
     throw error;
   }
 };
-
-
