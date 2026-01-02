@@ -44,7 +44,7 @@ const TaskList = () => {
     let apiEndpoint = isAdmin
       ? apiEndpoints.ENDPOINTS_ADMIN_TASK_LIST
       : apiEndpoints.ENDPOINTS_TASK_LIST;
-    console.log(apiEndpoint, "apiEndpoint");
+ 
     const query = new URLSearchParams({
       page,
       limit: LIMIT,
@@ -59,11 +59,10 @@ const TaskList = () => {
   };
 
   const { data, isLoading, isError } = useQuery({
-  queryKey: ["tasks", page, filters, refresh],
-  queryFn: fetchTasks,
-  keepPreviousData: true,
-});
-
+    queryKey: ["tasks", page, filters, refresh],
+    queryFn: fetchTasks,
+    keepPreviousData: true,
+  });
 
   const tasks = data?.tasks || [];
   const totalPages = Math.ceil((data?.total || 0) / LIMIT);
@@ -116,14 +115,16 @@ const TaskList = () => {
 
           {isAdmin && <td className="px-4 py-3">{task.userId.email}</td>}
 
-          <td className="px-1 py-3 flex gap-3">
+          <td className="px-1 py-3 flex gap-3 text-center justify-center">
             <button onClick={() => navigate(`/task/details/${task._id}`)}>
               <EyeIcon className="w-5 h-5 text-sky-900" />
             </button>
 
-            <button onClick={() => handleDelete(task._id)}>
-              <TrashIcon className="w-5 h-5 text-red-600" />
-            </button>
+            {isAdmin && (
+              <button onClick={() => handleDelete(task._id)}>
+                <TrashIcon className="w-5 h-5 text-red-600" />
+              </button>
+            )}
           </td>
         </tr>
       )),
@@ -186,7 +187,10 @@ const TaskList = () => {
         </div>
 
         <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
-          <AddTask onClose={() => setOpenModal(false)} onTaskCreated={() => setRefresh(prev => !prev)} />
+          <AddTask
+            onClose={() => setOpenModal(false)}
+            onTaskCreated={() => setRefresh((prev) => !prev)}
+          />
         </Modal>
 
         {/* Table */}

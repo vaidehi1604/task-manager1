@@ -17,6 +17,7 @@ import { UserCircleIcon } from "@heroicons/react/24/solid";
 import logo from "../../assets/task-magment.png";
 import AdminDashboard from "./AdminDashboard";
 import ChangePassword from "../../../src/components/features/profile/ChangePassword.jsx";
+import { USER_ACCESS_TOKEN_KEY } from "../../appConstants.js";
 const Dashboard = () => {
   const { user, logout, isAdmin } = useAuth();
   const [openChangePassword, setOpenChangePassword] = useState(false);
@@ -31,6 +32,7 @@ const Dashboard = () => {
         method: "POST",
       });
       logout();
+      localStorage.removeItem(USER_ACCESS_TOKEN_KEY);
       navigate("/");
     } catch (error) {
       console.error("Logout failed:", error);

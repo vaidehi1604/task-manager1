@@ -26,7 +26,6 @@ const Register = () => {
 
       // Redirect to dashboard
       navigate("/dashboard");
-      console.log(res, "res");
     } catch (e) {
       console.log(e);
     }

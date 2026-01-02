@@ -60,7 +60,6 @@ const AddTask = ({ onClose, onTaskCreated }) => {
         withToken: true,
       });
 
-      console.log("Task Created:", res);
       onTaskCreated();
       onClose();
     } catch (error) {

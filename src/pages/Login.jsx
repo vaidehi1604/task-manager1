@@ -43,7 +43,6 @@ const Login = () => {
 
       resetForm();
     } catch (error) {
-      console.log(error, 123);
       console.error("LOGIN FAILED:", error);
       setErrorMessage("Invalid login credentials");
     }

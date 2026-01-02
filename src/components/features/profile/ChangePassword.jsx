@@ -4,8 +4,12 @@ import * as Yup from "yup";
 import Modal from "../../../dialog/model";
 import { api } from "../../../api/apiInterceptors";
 import { userApiEndpoints } from "../../../constants/api-endpoints/user/user";
+import { useNavigate } from "react-router-dom";
+import { USER_ACCESS_TOKEN_KEY } from "../../../appConstants";
 
 const ChangePassword = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
+
   const validationSchema = Yup.object({
     oldPassword: Yup.string().required("Old password is required"),
     newPassword: Yup.string()
@@ -29,6 +33,8 @@ const ChangePassword = ({ isOpen, onClose }) => {
 
       resetForm();
       onClose();
+      localStorage.removeItem(USER_ACCESS_TOKEN_KEY);
+      navigate("/");
     } catch (error) {
       alert(error?.response?.data?.message || "Failed to change password");
     }
