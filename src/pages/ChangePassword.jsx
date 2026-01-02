@@ -30,7 +30,7 @@ const ChangePassword = () => {
       });
 
       resetForm();
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       alert(error?.response?.data?.message || "Failed to change password");
     }

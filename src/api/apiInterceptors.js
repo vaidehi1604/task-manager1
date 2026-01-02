@@ -49,7 +49,7 @@ axiosInstance.interceptors.request.use(
           localStorage.removeItem("userData");
           localStorage.removeItem("refreshToken");
           localStorage.removeItem("accessToken");
-          window.location.replace(`${process.env.NEXT_PUBLIC_BASE_URL}/login`);
+          window.location.replace(`${process.env.NEXT_PUBLIC_BASE_URL}/`);
         }
         isRefreshing = false;
       } else {

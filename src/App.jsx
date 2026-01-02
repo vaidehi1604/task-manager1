@@ -18,40 +18,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-// function App() {
-//   return (
-//     <ErrorBoundary>
-//       <Suspense fallback={<LoadingFallback />}>
-//         <Routes>
-//           {/* <Route path="/" element={<Navigate to="/login" />} /> */}
-//           <Route
-//             path="/"
-//             element={
-//               <PublicRoute>
-//                 <Login />
-//               </PublicRoute>
-//             }
-//           />
-//           <Route
-//             path="/register"
-//             element={
-//               <PublicRoute>
-//                 <Register />
-//               </PublicRoute>
-//             }
-//           />
-//           <Route path="/change-password" element={<ChangePassword />} />
-//           {/* <Route path="/register" element={<Register />} /> */}
-//           <Route path="/task/details/:taskId" element={<TaskDetails />} />
-//           <Route path="/dashboard" element={<Dashboard />} />
-//           <Route path="*" element={<NotFound />} />
-//         </Routes>
-//         <ToastContainer position="top-right" autoClose={3000} />
-//       </Suspense>
-//     </ErrorBoundary>
-//   );
-// }
-
 // export default App;
 import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
