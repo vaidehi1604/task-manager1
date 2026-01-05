@@ -56,6 +56,15 @@ function App() {
             }
           />
           <Route
+            path="/dashboard/tasks"
+            element={
+              <PrivateRoute>
+                <Dashboard active="tasks" />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
             path="/change-password"
             element={
               <PrivateRoute>

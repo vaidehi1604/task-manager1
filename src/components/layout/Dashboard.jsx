@@ -14,17 +14,20 @@ import { api } from "../../api/apiInterceptors";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
-import logo from "../../assets/task-magment.png";
 import AdminDashboard from "./AdminDashboard";
 import ChangePassword from "../../../src/components/features/profile/ChangePassword.jsx";
 import { USER_ACCESS_TOKEN_KEY } from "../../appConstants.js";
-const Dashboard = () => {
+
+const Dashboard = ({ active = "dashboard" }) => {
+  console.log(active, "active");
   const { user, logout, isAdmin } = useAuth();
   const [openChangePassword, setOpenChangePassword] = useState(false);
 
   const navigate = useNavigate();
   const [openProfile, setOpenProfile] = useState(false);
-  const [activeView, setActiveView] = useState(isAdmin ? "dashboard" : "tasks");
+  const [activeView, setActiveView] = useState(
+    active === "dashboard" && isAdmin ? "dashboard" : "tasks"
+  );
   const handleLogout = async () => {
     try {
       await api({
@@ -54,12 +57,19 @@ const Dashboard = () => {
             className="w-15 cursor-pointer rounded-full m-2"
           /> */}
           <div className="leading-tight select-none">
-            <span className="block text-m font-bold text-sky-700 dark:text-sky-400">
-              Task
-            </span>
-            <span className="block pl-3 text-m font-bold text-slate-900 dark:text-slate-100">
-              Manager
-            </span>
+            <button
+              onClick={() => {
+                navigate("/dashboard");
+                setActiveView("dashboard");
+              }}
+            >
+              <span className="block text-m font-bold text-sky-700 dark:text-sky-400">
+                Task
+              </span>
+              <span className="block pl-3 text-m font-bold text-slate-900 dark:text-slate-100">
+                Manager
+              </span>
+            </button>
           </div>
 
           <div className="flex items-center gap-4">
@@ -123,7 +133,10 @@ const Dashboard = () => {
           <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
             {isAdmin && (
               <button
-                onClick={() => setActiveView("dashboard")}
+                onClick={() => {
+                  navigate("/dashboard");
+                  setActiveView("dashboard");
+                }}
                 className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition
             ${activeView === "dashboard" ? "bg-sky-800" : "hover:bg-sky-800"}
           `}
@@ -134,7 +147,10 @@ const Dashboard = () => {
             )}
 
             <button
-              onClick={() => setActiveView("tasks")}
+              onClick={() => {
+                navigate("/dashboard/tasks");
+                setActiveView("tasks");
+              }}
               className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition
           ${activeView === "tasks" ? "bg-sky-800" : "hover:bg-sky-800"}
         `}
@@ -147,8 +163,8 @@ const Dashboard = () => {
               onClick={() => setOpenChangePassword(true)}
               className="flex items-center gap-3 w-full px-4 py-3 rounded-lg hover:bg-sky-800 transition"
             >
-            <LockClosedIcon className="w-5 h-5" />
-             Change Password
+              <LockClosedIcon className="w-5 h-5" />
+              Change Password
             </button>
           </div>
 
