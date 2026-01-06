@@ -76,7 +76,7 @@ export const api = async ({
         localStorage.removeItem(LOGGED_IN_USER_DATA)
         localStorage.removeItem(USER_ACCESS_TOKEN_KEY)
         let url = process.env.NEXT_PUBLIC_BASE_URL
-        console.log(url, "url")
+       
         url = `${url}/login`
         // window.location.replace(url)
       }

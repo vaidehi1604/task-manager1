@@ -44,7 +44,7 @@ const TaskList = () => {
     let apiEndpoint = isAdmin
       ? apiEndpoints.ENDPOINTS_ADMIN_TASK_LIST
       : apiEndpoints.ENDPOINTS_TASK_LIST;
- 
+
     const query = new URLSearchParams({
       page,
       limit: LIMIT,
@@ -147,9 +147,12 @@ const TaskList = () => {
         {/* Filters */}
         <div className="flex gap-3 mb-4">
           <input
-            placeholder="Search tasks..."
+            placeholder="Search tasks by title"
             className="px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white"
-            onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+            onChange={(e) => {
+              setPage(1);
+              setFilters({ ...filters, search: e.target.value });
+            }}
           />
 
           <select

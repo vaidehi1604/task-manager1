@@ -19,7 +19,6 @@ import ChangePassword from "../../../src/components/features/profile/ChangePassw
 import { USER_ACCESS_TOKEN_KEY } from "../../appConstants.js";
 
 const Dashboard = ({ active = "dashboard" }) => {
-  console.log(active, "active");
   const { user, logout, isAdmin } = useAuth();
   const [openChangePassword, setOpenChangePassword] = useState(false);
 
@@ -59,8 +58,8 @@ const Dashboard = ({ active = "dashboard" }) => {
           <div className="leading-tight select-none">
             <button
               onClick={() => {
-                navigate("/dashboard");
-                setActiveView("dashboard");
+                isAdmin ? (navigate("/dashboard") && setActiveView("dashboard")): navigate("/dashboard/tasks") && setActiveView("tasks");
+                
               }}
             >
               <span className="block text-m font-bold text-sky-700 dark:text-sky-400">

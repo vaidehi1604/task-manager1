@@ -176,7 +176,7 @@ const TaskDetails = () => {
             {!editMode ? (
               <button
                 onClick={() => setEditMode(true)}
-                className="flex gap-2 px-4 py-2 text-sm border rounded-lg hover:bg-gray-100"
+                className="flex gap-2 px-4 py-2 text-sm border rounded-lg hover:bg-gray-100 dark:bg-gray-50"
               >
                 <PencilIcon className="w-4 h-4" />
                 Edit
